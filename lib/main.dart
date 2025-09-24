@@ -27,6 +27,7 @@ class _CounterWidgetState extends State<CounterWidget> {
   int _counter = 0;
   bool active = false;
   Timer? _timer;
+  Color color = Colors.red;
 
   // didnt read fully so i had added this simple count down but now i know it didnt ask so instead
   // i made it so that every 2 seconds it will decrease fuel by 1
@@ -40,6 +41,7 @@ class _CounterWidgetState extends State<CounterWidget> {
         }
         if (active == true) {
           _counter -= 1;
+          _colorChange();
         }});
     });
   }
@@ -47,9 +49,19 @@ class _CounterWidgetState extends State<CounterWidget> {
     setState(() {
       if (active == true) {
         _counter+=1;
+        _colorChange();
       }
       else{
         active = true;
+      }
+    });
+  }
+  void _colorChange() {
+    setState(() {
+      if (_counter > 50) {
+        color = Colors.green;
+      } else {
+        color = Colors.red;
       }
     });
   }
@@ -66,7 +78,7 @@ class _CounterWidgetState extends State<CounterWidget> {
         children: [
           Text(
             '$_counter',
-            style: const TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 50.0, color: color, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 40), // spacing between counter and slider
           Padding(
@@ -80,7 +92,16 @@ class _CounterWidgetState extends State<CounterWidget> {
               inactiveColor: Colors.red,
             ),
           ),
-          ElevatedButton(onPressed: _fuel, child: const Text('ignite')),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: _fuel, child: const Text('Ignite')),
+              ElevatedButton(onPressed: _fuel, child: const Text('Fuel')),
+              ElevatedButton(onPressed: _fuel, child: const Text('Defuel')),
+              ElevatedButton(onPressed: _fuel, child: const Text('Abort')),
+              ElevatedButton(onPressed: _fuel, child: const Text('Reset'))
+            ],
+          ),
         ],
       ),
     );
