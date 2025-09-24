@@ -28,10 +28,12 @@ class _CounterWidgetState extends State<CounterWidget> {
   bool active = false;
   Timer? _timer;
 
+  // didnt read fully so i had added this simple count down but now i know it didnt ask so instead
+  // i made it so that every 2 seconds it will decrease fuel by 1
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
       setState(() {
         if (_counter == 0) {
         active = false;
@@ -41,9 +43,14 @@ class _CounterWidgetState extends State<CounterWidget> {
         }});
     });
   }
-  void _activate() {
+  void _fuel() {
     setState(() {
-      active = true;
+      if (active == true) {
+        _counter+=1;
+      }
+      else{
+        active = true;
+      }
     });
   }
   @override
@@ -52,7 +59,8 @@ class _CounterWidgetState extends State<CounterWidget> {
       appBar: AppBar(
         title: const Text('Rocket Launch Controller'),
       ),
-      body: Column(
+      body: 
+      Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center, // center horizontally
         children: [
@@ -67,16 +75,12 @@ class _CounterWidgetState extends State<CounterWidget> {
               min: 0,
               max: 100,
               value: _counter.toDouble(),
-              onChanged: (double value) {
-                setState(() {
-                  _counter = value.toInt();
-                });
-              },
+              onChanged: null,
               activeColor: Colors.blue,
               inactiveColor: Colors.red,
             ),
           ),
-          ElevatedButton(onPressed: _activate, child: const Text('Launch')),
+          ElevatedButton(onPressed: _fuel, child: const Text('ignite')),
         ],
       ),
     );
