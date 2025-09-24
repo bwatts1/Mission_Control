@@ -32,13 +32,14 @@ class _CounterWidgetState extends State<CounterWidget> {
   void initState() {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_counter == 0) {
+      setState(() {
+        if (_counter == 0) {
         active = false;
-      }
-      if (active == true) {
-        _counter -= 1;
-      }
-    };
+        }
+        if (active == true) {
+          _counter -= 1;
+        }});
+    });
   }
   void _activate() {
     setState(() {
