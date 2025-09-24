@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -24,7 +25,26 @@ class CounterWidget extends StatefulWidget {
 
 class _CounterWidgetState extends State<CounterWidget> {
   int _counter = 0;
+  bool active = false;
+  Timer? _timer;
 
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_counter == 0) {
+        active = false;
+      }
+      if (active == true) {
+        _counter -= 1;
+      }
+    };
+  }
+  void _activate() {
+    setState(() {
+      active = true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,6 +75,7 @@ class _CounterWidgetState extends State<CounterWidget> {
               inactiveColor: Colors.red,
             ),
           ),
+          ElevatedButton(onPressed: _activate, child: const Text('Launch')),
         ],
       ),
     );
