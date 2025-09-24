@@ -25,21 +25,21 @@ class CounterWidget extends StatefulWidget {
 
 class _CounterWidgetState extends State<CounterWidget> {
   int _counter = 0;
+  int progress = 0;
   bool active = false;
   Timer? _timer;
   Color color = Colors.red;
 
-  // didnt read fully so i had added this simple count down but now i know it didnt ask so instead
-  // i made it so that every 2 seconds it will decrease fuel by 1
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 2), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (_counter == 0) {
         active = false;
         }
         if (active == true) {
+          progress +=1;
           _counter -= 1;
           _colorChange();
         }});
@@ -56,6 +56,41 @@ class _CounterWidgetState extends State<CounterWidget> {
       }
     });
   }
+  void _ignite() {
+    setState(() {
+      if (_counter > 50) {
+        (active = true);
+      } else {
+      }
+    });
+  }
+  void _abort() {
+    setState(() {
+      active = false;
+      _counter = 0;
+      _colorChange();
+    });
+  }
+  void _reset() {
+    setState(() {
+      active = false;
+      _counter = 0;
+      progress = 0;
+      _colorChange();
+    });
+  }
+  void _defuel() {
+    setState(() {
+      if (_counter < 1) {
+        active = false;
+      }
+      if (active == true) {
+        _counter-=1;
+        _colorChange();
+      }
+    });
+  }
+  
   void _colorChange() {
     setState(() {
       if (_counter > 50) {
@@ -95,11 +130,11 @@ class _CounterWidgetState extends State<CounterWidget> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: _fuel, child: const Text('Ignite')),
+              ElevatedButton(onPressed: _ignite, child: const Text('Ignite')),
               ElevatedButton(onPressed: _fuel, child: const Text('Fuel')),
-              ElevatedButton(onPressed: _fuel, child: const Text('Defuel')),
-              ElevatedButton(onPressed: _fuel, child: const Text('Abort')),
-              ElevatedButton(onPressed: _fuel, child: const Text('Reset'))
+              ElevatedButton(onPressed: _defuel, child: const Text('Defuel')),
+              ElevatedButton(onPressed: _abort, child: const Text('Abort')),
+              ElevatedButton(onPressed: _reset, child: const Text('Reset'))
             ],
           ),
         ],
