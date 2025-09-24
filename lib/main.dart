@@ -47,7 +47,7 @@ class _CounterWidgetState extends State<CounterWidget> {
   }
   void _fuel() {
     setState(() {
-      if (_counter <= 100 && active == false) {
+      if (_counter < 100 && active == false) {
         _counter+=1;
         _colorChange();
       }
