@@ -35,6 +35,12 @@ class _CounterWidgetState extends State<CounterWidget> {
     super.initState();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
+        if (progress > 150) {
+          _showAlertDialog(context);
+          _counter = 0;
+          active = false;
+          progress = 0;
+        }
         if (_counter == 0) {
         active = false;
         }
@@ -99,6 +105,25 @@ class _CounterWidgetState extends State<CounterWidget> {
         color = Colors.red;
       }
     });
+  }
+  void _showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Rocket Launched!'),
+          content: const Text('The rocket has successfully launched!'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
   @override
   Widget build(BuildContext context) {
