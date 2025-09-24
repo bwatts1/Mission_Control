@@ -84,7 +84,7 @@ class _CounterWidgetState extends State<CounterWidget> {
       if (_counter < 1) {
         active = false;
       }
-      if (active == true) {
+      if (active == false) {
         _counter-=1;
         _colorChange();
       }
